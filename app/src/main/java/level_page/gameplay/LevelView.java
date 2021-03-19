@@ -123,10 +123,10 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius()) {
-            futurX = balle.getCx();
+            restartGame();
         }
         if (futurY >= yMax - balle.getRadius() || futurY <= balle.getRadius()) {
-            futurY = balle.getCy();
+            restartGame();
         }
 
         if(isOnPixel((int) futurX, (int) futurY, Color.RED)){ //joint
