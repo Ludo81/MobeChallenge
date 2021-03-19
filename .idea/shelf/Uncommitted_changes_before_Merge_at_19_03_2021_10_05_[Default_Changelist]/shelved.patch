@@ -1,0 +1,67 @@
+Index: app/src/main/java/end_page/EndActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package end_page;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport com.example.mobechallengeproject.R;\r\n\r\npublic class EndActivity extends AppCompatActivity {\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_end);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/end_page/EndActivity.java	(revision b65ebff088afb464ff566b85254f220039be9495)
++++ app/src/main/java/end_page/EndActivity.java	(date 1616144562943)
+@@ -2,15 +2,21 @@
+ 
+ import androidx.appcompat.app.AppCompatActivity;
+ 
++import android.media.MediaPlayer;
+ import android.os.Bundle;
+ 
+ import com.example.mobechallengeproject.R;
+ 
++import level_page.gameplay.LevelGamePlayActivity;
++
+ public class EndActivity extends AppCompatActivity {
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_end);
++
++        MediaPlayer music = MediaPlayer.create(EndActivity.this, R.raw.end_music);
++        music.start();
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/level_page/gameplay/LevelGamePlayActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package level_page.gameplay;\r\n\r\n\r\nimport android.app.Activity;\r\nimport android.hardware.Sensor;\r\nimport android.hardware.SensorEvent;\r\nimport android.hardware.SensorEventListener;\r\nimport android.os.Bundle;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\nimport android.view.Window;\r\nimport android.view.WindowManager;\r\n\r\npublic class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,\r\n                WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n        this.requestWindowFeature(Window.FEATURE_NO_TITLE);\r\n\r\n        LevelView levelView = new LevelView(this);\r\n        setContentView(levelView);\r\n    }\r\n\r\n    @Override\r\n    public void onSensorChanged(SensorEvent event) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onAccuracyChanged(Sensor sensor, int accuracy) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public boolean onTouch(View v, MotionEvent event) {\r\n        return false;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/level_page/gameplay/LevelGamePlayActivity.java	(revision b65ebff088afb464ff566b85254f220039be9495)
++++ app/src/main/java/level_page/gameplay/LevelGamePlayActivity.java	(date 1616144562951)
+@@ -5,12 +5,15 @@
+ import android.hardware.Sensor;
+ import android.hardware.SensorEvent;
+ import android.hardware.SensorEventListener;
++import android.media.MediaPlayer;
+ import android.os.Bundle;
+ import android.view.MotionEvent;
+ import android.view.View;
+ import android.view.Window;
+ import android.view.WindowManager;
+ 
++import com.example.mobechallengeproject.R;
++
+ public class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{
+ 
+     @Override
+@@ -22,6 +25,9 @@
+ 
+         LevelView levelView = new LevelView(this);
+         setContentView(levelView);
++
++        MediaPlayer music = MediaPlayer.create(LevelGamePlayActivity.this, R.raw.level_music);
++        music.start();
+     }
+ 
+     @Override
