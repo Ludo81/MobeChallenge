@@ -1,0 +1,17 @@
+Index: app/src/main/java/level_page/gameplay/LevelGamePlayActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package level_page.gameplay;\r\n\r\n\r\nimport android.app.Activity;\r\nimport android.content.Context;\r\nimport android.hardware.Sensor;\r\nimport android.hardware.SensorEvent;\r\nimport android.hardware.SensorEventListener;\r\nimport android.hardware.SensorManager;\r\nimport android.media.MediaPlayer;\r\nimport android.hardware.SensorManager;\r\nimport android.os.Bundle;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\nimport android.view.Window;\r\nimport android.view.WindowManager;\r\n\r\nimport com.example.mobechallengeproject.R;\r\n\r\npublic class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{\r\n    private SensorManager sensorManager;\r\n    private Sensor sensor;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,\r\n                WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n        this.requestWindowFeature(Window.FEATURE_NO_TITLE);\r\n\r\n        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);\r\n        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);\r\n\r\n        LevelView levelView = new LevelView(this);\r\n        setContentView(levelView);\r\n\r\n        MediaPlayer music = MediaPlayer.create(LevelGamePlayActivity.this, R.raw.level_music);\r\n        music.start();\r\n    }\r\n\r\n    @Override\r\n    public void onSensorChanged(SensorEvent sensorEvent) {\r\n        switch (sensorEvent.sensor.getType()) {\r\n            case Sensor.TYPE_ACCELEROMETER:\r\n                LevelView.gVector = sensorEvent.values;\r\n                break;\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public void onAccuracyChanged(Sensor sensor, int accuracy) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public boolean onTouch(View v, MotionEvent event) {\r\n        return false;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/level_page/gameplay/LevelGamePlayActivity.java	(revision 85ed8117e542725058012c1da0f7881f2d7e5821)
++++ app/src/main/java/level_page/gameplay/LevelGamePlayActivity.java	(date 1616148523210)
+@@ -8,7 +8,6 @@
+ import android.hardware.SensorEventListener;
+ import android.hardware.SensorManager;
+ import android.media.MediaPlayer;
+-import android.hardware.SensorManager;
+ import android.os.Bundle;
+ import android.view.MotionEvent;
+ import android.view.View;

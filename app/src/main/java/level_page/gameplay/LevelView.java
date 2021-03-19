@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -64,15 +63,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             Paint paint = new Paint();
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
-
-            drawBall(canvas, paint);
-            paint.setColor(Color.WHITE);
+            paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
         }
-    }
-
-    private void drawBall(Canvas canvas, Paint paint){
-
     }
 
     private int getColorBall(){

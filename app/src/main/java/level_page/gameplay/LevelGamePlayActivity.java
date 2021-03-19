@@ -23,7 +23,8 @@ import com.example.mobechallengeproject.R;
 
 public class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{
     private SensorManager sensorManager;
-    private Sensor sensor;
+    private Sensor accelSensor;
+    private Sensor lightSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,8 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         LevelView.activity = this;
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         LevelView levelView = new LevelView(this);
         levelView.setOnTouchListener(this);
@@ -60,6 +62,7 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 LevelView.gVector = sensorEvent.values;
+                System.out.println(LevelView.gVector);
                 break;
             case Sensor.TYPE_LIGHT:
                 LevelView.luminosite = sensorEvent.values[0];
@@ -81,4 +84,12 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         }
         return true;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
 }
