@@ -41,6 +41,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap map_high;
     private Bitmap map_defonce;
     private Bitmap current_map;
+    private Bitmap bonus;
 
     public static boolean restart;
 
@@ -69,6 +70,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         map_defonce = BitmapFactory.decodeResource(getResources(), R.drawable.map_state2);
 
         current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
+
+        Bitmap seringue = BitmapFactory.decodeResource(getResources(), R.drawable.bonus);
+        bonus = seringue.isMutable() ? seringue : seringue.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         this.etat = Etat.CLEAN;
         setFocusable(true);
@@ -137,6 +141,8 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             Paint paint = new Paint();
 
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
+            canvas.drawBitmap(bonus, null, new Rect(400, 400, 450, 450), paint);
+            canvas.drawBitmap(bonus, null, new Rect(40, 550, 90, 600), paint);
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
 
