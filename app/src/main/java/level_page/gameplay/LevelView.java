@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -43,6 +44,10 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     public static LevelGamePlayActivity levelGamePlayActivity;
 
     private Chrono chrono = new Chrono();
+    private Chrono chronometreGlobal = new Chrono();
+
+    private String textChrono;
+
     public boolean demarre = false;
 
     public LevelView(Context context) {
@@ -58,6 +63,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         current_map = map.isMutable() ? map : map.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         setFocusable(true);
+        chronometreGlobal.start();
     }
 
     public void update() {
@@ -92,6 +98,12 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
         }
+        Paint paintChrono = new Paint();
+        paintChrono.setTextSize(40);
+        paintChrono.setColor(Color.RED);
+        paintChrono.setFakeBoldText(true);
+        textChrono = "Time : " + String.valueOf(chronometreGlobal.getDuree());
+        canvas.drawText(textChrono, (int)((float)xMax*0.42), (int)((float)yMax*0.065), paintChrono);
         drawRestart(canvas);
     }
 
