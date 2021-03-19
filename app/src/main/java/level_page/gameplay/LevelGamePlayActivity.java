@@ -3,7 +3,6 @@ package level_page.gameplay;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,10 +18,13 @@ import android.view.WindowManager;
 
 import com.example.mobechallengeproject.R;
 
+import end_page.EndActivity;
+
 public class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{
     private SensorManager sensorManager;
     private Sensor accelSensor;
     private Sensor lightSensor;
+    public static MediaPlayer level_music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,8 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         levelView.setOnTouchListener(this);
         setContentView(levelView);
 
-        MediaPlayer music = MediaPlayer.create(LevelGamePlayActivity.this, R.raw.level_music);
-        music.start();
+        level_music = MediaPlayer.create(LevelGamePlayActivity.this, R.raw.level_music);
+        level_music.start();
     }
 
     @Override

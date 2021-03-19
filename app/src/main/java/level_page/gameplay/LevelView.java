@@ -65,6 +65,8 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean demarre = false;
 
+    private boolean timesUp = false;
+
     public LevelView(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -181,7 +183,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
 
 
-        if(chronometreGlobal.getDuree() == 30) {
+        if(!timesUp && chronometreGlobal.getDuree() == 35) {
             switch (etat) {
                 case CLEAN:
                     etat = Etat.HIGH;
@@ -192,6 +194,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                     current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
                     break;
             }
+            timesUp = true;
         }
     }
 
