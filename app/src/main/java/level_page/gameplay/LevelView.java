@@ -22,8 +22,8 @@ import end_page.EndActivity;
 import level_page.model.Chrono;
 
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
-    public final static int xDep = 60;
-    public final static int yDep = 600;
+    private final static int xDep = 60;
+    private final static int yDep = 600;
 
     public static float luminosite;
 
@@ -129,9 +129,6 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             futurY = balle.getCy();
         }
 
-        if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){ //mur
-            restartGame();
-        }
         if(isOnPixel((int) futurX, (int) futurY, Color.RED)){ //joint
             malusactived = false;
         }
@@ -144,10 +141,14 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         if(isOnPixel((int) futurX, (int) futurY, Color.GREEN)){ //arrivé
             end();
         }
-        else {
+        if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){ //mur
+            restartGame();
+        } else {
             balle.setCx((int) futurX);
             balle.setCy((int) futurY);
         }
+
+
 
         if(chronometreGlobal.getDuree() == 30) {
             switch (etat) {
