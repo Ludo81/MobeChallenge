@@ -10,14 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobeChallengeProject">
         <activity android:name="level_page.gameplay.LevelGamePlayActivity"></activity>
-        <activity android:name="start_page.StartActivity" />
-        <activity android:name="end_page.EndActivity" />
-        <activity android:name="level_page.overlay.LevelOverlayActivity">
+        <activity android:name="start_page.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="end_page.EndActivity"></activity>
+        <activity
+            android:name="level_page.overlay.LevelOverlayActivity"
+            android:parentActivityName="start_page.StartActivity">
         </activity>
     </application>
 
