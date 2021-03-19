@@ -23,12 +23,14 @@ import end_page.EndActivity;
 import level_page.model.Chrono;
 
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
+    private final static int xDep = 60;
+    private final static int yDep = 600;
 
     public static float luminosite;
 
     public static LevelGamePlayActivity activity;
 
-    private static Balle balle = new Balle(25, 500, 500);
+    private static Balle balle = new Balle(25, xDep, yDep);
 
     private LevelThread levelThread;
 
@@ -80,20 +82,22 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
+        float xVector = gVector[1];
+        float yVector = gVector[0];
         double futurX = -1;
         double futurY = -1;
         switch (etat) {
             case CLEAN:
-                futurX = balle.getCx() + gVector[1];
-                futurY = balle.getCy() + gVector[0];
+                futurX = balle.getCx() + xVector;
+                futurY = balle.getCy() + yVector;
                 break;
             case HIGH:
-                futurX = balle.getCx() - gVector[1];
-                futurY = balle.getCy() - gVector[0];
+                futurX = balle.getCx() - xVector;
+                futurY = balle.getCy() - yVector;
                 break;
             case DEFONCE:
-                futurX = balle.getCx() - gVector[1];
-                futurY = balle.getCy() + gVector[0];
+                futurX = balle.getCx() - xVector;
+                futurY = balle.getCy() + yVector;
                 break;
         }
 
@@ -107,15 +111,20 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             demarre = false;
         }
 
-        if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius() ) {
+        if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius()) {
             futurX = balle.getCx();
         }
         if (futurY >= yMax - balle.getRadius() || futurY <= balle.getRadius()) {
             futurY = balle.getCy();
         }
 
-        balle.setCx((int) futurX);
-        balle.setCy((int) futurY);
+        if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){
+            balle.setCx(xDep);
+            balle.setCy(yDep);
+        } else {
+            balle.setCx((int) futurX);
+            balle.setCy((int) futurY);
+        }
 
         if(chronometreGlobal.getDuree() == 4) {
             etat = Etat.HIGH;
@@ -127,6 +136,30 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             etat = Etat.DEFONCE;
             current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
         }
+    }
+    private static boolean isOnPixel(int futureX, int futureY, int color) {
+        int r = balle.getRadius();
+        int xi = futureX - balle.getRadius();
+        int yi = futureY - balle.getRadius();
+
+        while (yi < futureY + balle.getRadius()) {
+            while (xi < futureX + balle.getRadius()) {
+                if (xi >= xMax || xi <= 0 || yi >= yMax || yi <= 0) {
+                    return true;
+                }
+                if (isInCircle(xi, yi, futureX, futureY, r) && current_map.getPixel(xi * (current_map.getWidth()-1) / xMax, yi * (current_map.getHeight()-1) / yMax) == color) {
+                    return true;
+                }
+                xi = xi + 1;
+            }
+            xi = futureX - balle.getRadius();
+            yi = yi + 1;
+        }
+        return false;
+    }
+
+    private static boolean isInCircle(int x, int y, int cx, int cy, int r) {
+        return (x - cx)*(x - cx) + (y - cy)*(y - cy) <= r*r;
     }
 
     private void restart(){
