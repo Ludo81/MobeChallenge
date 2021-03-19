@@ -312,6 +312,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 chronometreGlobal = new Chrono();
                 restartGame();
                 chronometreGlobal.start();
+                bonus1actived = true;
+                bonus2actived = true;
+                malusactived = true;
             }
         }
     }
