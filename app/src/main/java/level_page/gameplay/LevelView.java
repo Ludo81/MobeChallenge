@@ -2,13 +2,18 @@ package level_page.gameplay;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import level_page.model.Balle;
+
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
+
+    private static Balle balle = new Balle(750, 50, 25);
 
     private LevelThread levelThread;
 
