@@ -2,6 +2,7 @@ package level_page.gameplay;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,6 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import end_page.EndActivity;
+import start_page.StartActivity;
 
 public class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{
 
@@ -21,6 +25,7 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         LevelView levelView = new LevelView(this);
+        levelView.setOnTouchListener(this);
         setContentView(levelView);
     }
 
@@ -36,6 +41,11 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return false;
+        int count = event.getPointerCount();
+        if (count == 2) {
+            Intent intent = new Intent(LevelGamePlayActivity.this, EndActivity.class);
+            LevelGamePlayActivity.this.startActivity(intent);
+        }
+        return true;
     }
 }
