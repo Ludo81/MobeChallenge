@@ -3,6 +3,7 @@ package level_page.gameplay;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +17,9 @@ import androidx.annotation.NonNull;
 import com.example.mobechallengeproject.R;
 
 import level_page.model.Balle;
+
+import end_page.EndActivity;
+import level_page.model.Chrono;
 
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -34,6 +38,13 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static Bitmap current_map;
 
+    public static boolean restart;
+
+    public static LevelGamePlayActivity levelGamePlayActivity;
+
+    private Chrono chrono = new Chrono();
+    public boolean demarre = false;
+
     public LevelView(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -50,8 +61,18 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        double futurX = balle.getCx() + gVector[1];
-        double futurY = balle.getCy() + gVector[0];
+        double futurX = balle.getCx() + gVector[0];
+        double futurY = balle.getCy() + gVector[1];
+
+        if(restart){
+            if(!demarre){
+                chrono.start();
+                demarre = true;
+            }
+        } else {
+            chrono.stop();
+            demarre = false;
+        }
 
         if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius() ) {
             futurX = balle.getCx();
@@ -62,6 +83,12 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
         balle.setCx((int) futurX);
         balle.setCy((int) futurY);
+
+    }
+
+    private void restart(){
+        Intent intent = new Intent(levelGamePlayActivity, EndActivity.class);
+        levelGamePlayActivity.startActivity(intent);
     }
 
     @Override
@@ -73,6 +100,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
         }
+        drawRestart(canvas);
     }
 
     private int getColorBall(){
@@ -80,7 +108,6 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         int g = (int) (luminosite*60)%255;
         int b = (int) (luminosite*90)%255;
         return Color.rgb(r, g, b);
-
     }
 
     @Override
@@ -105,4 +132,28 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             retry = false;
         }
     }
+
+    private void drawRestart(Canvas canvas){
+        Paint paint = new Paint();
+
+        if(restart){
+            paint.setColor(Color.WHITE);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(2);
+            canvas.drawRect(50, 50, 300, 100, paint);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.RED);
+            long test = chrono.getDuree();
+            if (test == 0) {
+                canvas.drawRect(50, 50, 100, 100, paint);
+            } else if(test == 1){
+                canvas.drawRect(50, 50, 200, 100, paint);
+            } else if(test == 2){
+                canvas.drawRect(50, 50, 300, 100, paint);
+            } else if(test == 3)
+                restart();
+        }
+
+    }
+
 }

@@ -17,8 +17,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import end_page.EndActivity;
-
 import com.example.mobechallengeproject.R;
 
 public class LevelGamePlayActivity extends Activity implements SensorEventListener, View.OnTouchListener{
@@ -49,6 +47,9 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
+        LevelView.levelGamePlayActivity = this;
+        LevelView.restart = false;
+
         LevelView levelView = new LevelView(this);
         levelView.setOnTouchListener(this);
         setContentView(levelView);
@@ -78,8 +79,9 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
     public boolean onTouch(View v, MotionEvent event) {
         int count = event.getPointerCount();
         if (count == 2) {
-            Intent intent = new Intent(LevelGamePlayActivity.this, EndActivity.class);
-            LevelGamePlayActivity.this.startActivity(intent);
+            LevelView.restart = true;
+        } else{
+            LevelView.restart = false;
         }
         return true;
     }
