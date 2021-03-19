@@ -36,9 +36,14 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     public static int xMax;
     public static int yMax;
 
-    private static Bitmap current_map;
+    private Bitmap map_clean;
+    private Bitmap map_high;
+    private Bitmap map_defonce;
+    private Bitmap current_map;
 
     public static boolean restart;
+
+    private Etat etat;
 
     public static LevelGamePlayActivity levelGamePlayActivity;
 
@@ -54,9 +59,13 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        Bitmap map = BitmapFactory.decodeResource(getResources(), R.drawable.map_state0);
-        current_map = map.isMutable() ? map : map.copy(Bitmap.Config.ARGB_8888, true);
+        map_clean = BitmapFactory.decodeResource(getResources(), R.drawable.map_state0);
+        map_high = BitmapFactory.decodeResource(getResources(), R.drawable.map_state1);
+        map_defonce = BitmapFactory.decodeResource(getResources(), R.drawable.map_state2);
+
+        current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
+        this.etat = Etat.CLEAN;
         setFocusable(true);
     }
 
@@ -83,7 +92,6 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
         balle.setCx((int) futurX);
         balle.setCy((int) futurY);
-
     }
 
     private void restart(){
@@ -96,11 +104,13 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         if(canvas != null) {
             super.draw(canvas);
             Paint paint = new Paint();
+
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
+
+            drawRestart(canvas, paint);
         }
-        drawRestart(canvas);
     }
 
     private int getColorBall(){
@@ -108,6 +118,21 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         int g = (int) (luminosite*60)%255;
         int b = (int) (luminosite*90)%255;
         return Color.rgb(r, g, b);
+    }
+
+    private void appliquerEtat(){
+        switch (etat) {
+            case CLEAN:
+                current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
+                break;
+            case HIGH:
+                current_map = map_high.isMutable() ? map_high : map_high.copy(Bitmap.Config.ARGB_8888, true);
+                break;
+            case DEFONCE:
+                current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
+                break;
+            default:
+        }
     }
 
     @Override
@@ -133,9 +158,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private void drawRestart(Canvas canvas){
-        Paint paint = new Paint();
-
+    private void drawRestart(Canvas canvas, Paint paint){
         if(restart){
             paint.setColor(Color.WHITE);
             paint.setStyle(Paint.Style.STROKE);
@@ -153,7 +176,6 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             } else if(test == 3)
                 restart();
         }
-
     }
 
 }
