@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.example.mobechallengeproject.R;
 
-import level_page.overlay.LevelOverlayActivity;
+import level_page.gameplay.LevelGamePlayActivity;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class StartActivity extends AppCompatActivity {
         final Button button = findViewById(R.id.start_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(StartActivity.this, LevelOverlayActivity.class);
+                Intent intent = new Intent(StartActivity.this, LevelGamePlayActivity.class);
                 StartActivity.this.startActivity(intent);
             }
         });
