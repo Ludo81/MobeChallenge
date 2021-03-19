@@ -38,6 +38,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     public static int yMax;
 
     private static Bitmap current_map;
+    private Bitmap bonus;
 
     public static boolean restart;
 
@@ -60,7 +61,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         Bitmap map = BitmapFactory.decodeResource(getResources(), R.drawable.map_state0);
+        Bitmap seringue = BitmapFactory.decodeResource(getResources(), R.drawable.bonus);
         current_map = map.isMutable() ? map : map.copy(Bitmap.Config.ARGB_8888, true);
+        bonus = seringue.isMutable() ? seringue : seringue.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         setFocusable(true);
         chronometreGlobal.start();
@@ -103,6 +106,8 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             Paint paint = new Paint();
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
+            canvas.drawBitmap(bonus, null, new Rect(400, 400, 450, 450), paint);
+            canvas.drawBitmap(bonus, null, new Rect(40, 550, 90, 600), paint);
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
         }
