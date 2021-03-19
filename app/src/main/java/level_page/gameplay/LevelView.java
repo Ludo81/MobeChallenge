@@ -129,21 +129,52 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             restartGame();
         }
 
-        if(isOnPixel((int) futurX, (int) futurY, Color.RED)){ //joint
+        if(1200 < futurX && futurX < 1250 && 230 < futurY && futurY < 280){ //joint
             malusactived = false;
+            switch (etat) {
+                case CLEAN:
+                    etat = Etat.HIGH;
+                    current_map = map_high.isMutable() ? map_high : map_high.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+                case HIGH:
+                    etat = Etat.DEFONCE;
+                    current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+            }
         }
-        if(isOnPixel((int) futurX, (int) futurY, Color.BLUE)){ //bonus1
+        if(1200 < futurX && futurX < 1250 && 720 < futurY && futurY < 770){ //bonus1
             bonus1actived = false;
+            switch (etat) {
+                case HIGH:
+                    etat = Etat.CLEAN;
+                    current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+                case DEFONCE:
+                    etat = Etat.HIGH;
+                    current_map = map_high.isMutable() ? map_high : map_high.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+            }
         }
-        if(isOnPixel((int) futurX, (int) futurY, Color.rgb(0, 0, 254))){ //bonus2
+        if(40 < futurX && futurX < 90 && 720 < futurY && futurY < 770){ //bonus2
             bonus2actived = false;
+            switch (etat) {
+                case HIGH:
+                    etat = Etat.CLEAN;
+                    current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+                case DEFONCE:
+                    etat = Etat.HIGH;
+                    current_map = map_high.isMutable() ? map_high : map_high.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+            }
         }
         if(isOnPixel((int) futurX, (int) futurY, Color.GREEN)){ //arrivé
             end();
         }
         if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){ //mur
             restartGame();
-        } else {
+        }
+        else {
             balle.setCx((int) futurX);
             balle.setCy((int) futurY);
         }
