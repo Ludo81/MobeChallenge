@@ -17,6 +17,7 @@ import start_page.StartActivity;
 
 
 public class EndActivity extends AppCompatActivity {
+    public MediaPlayer end_music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class EndActivity extends AppCompatActivity {
         final Button restart_button = findViewById(R.id.restart_button);
         restart_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                end_music.stop();
                 LevelView.restartGame();
                 Intent intent = new Intent(EndActivity.this, LevelGamePlayActivity.class);
                 EndActivity.this.startActivity(intent);
@@ -53,8 +55,8 @@ public class EndActivity extends AppCompatActivity {
             }
         });
 
-        MediaPlayer music = MediaPlayer.create(EndActivity.this, R.raw.end_music);
-        music.start();
-
+        LevelGamePlayActivity.level_music.stop();
+        end_music = MediaPlayer.create(EndActivity.this, R.raw.end_music);
+        end_music.start();
     }
 }
