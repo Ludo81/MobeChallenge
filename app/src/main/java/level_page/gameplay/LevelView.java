@@ -29,7 +29,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
     public static LevelGamePlayActivity activity;
 
-    private static Balle balle = new Balle(25, xDep, yDep);
+    private static Balle balle = new Balle(20, xDep, yDep);
 
     private LevelThread levelThread;
 
@@ -125,17 +125,20 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             balle.setCy((int) futurY);
         }
 
-        if(chronometreGlobal.getDuree() == 4) {
-            etat = Etat.HIGH;
-            current_map = map_high.isMutable() ? map_high : map_high.copy(Bitmap.Config.ARGB_8888, true);
-
-        }
-
-        if(chronometreGlobal.getDuree() == 8) {
-            etat = Etat.DEFONCE;
-            current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
+        if(chronometreGlobal.getDuree() == 30) {
+            switch (etat) {
+                case CLEAN:
+                    etat = Etat.HIGH;
+                    current_map = map_high.isMutable() ? map_high : map_high.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+                case HIGH:
+                    etat = Etat.DEFONCE;
+                    current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
+                    break;
+            }
         }
     }
+
     private static boolean isOnPixel(int futureX, int futureY, int color) {
         int r = balle.getRadius();
         int xi = futureX - balle.getRadius();
