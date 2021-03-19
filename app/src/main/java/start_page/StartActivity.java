@@ -18,8 +18,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        final Button button = findViewById(R.id.start_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button start_button = findViewById(R.id.start_button);
+        start_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(StartActivity.this, LevelGamePlayActivity.class);
                 StartActivity.this.startActivity(intent);
