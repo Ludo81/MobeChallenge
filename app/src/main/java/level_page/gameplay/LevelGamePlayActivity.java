@@ -41,9 +41,7 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
     public void onSensorChanged(SensorEvent sensorEvent) {
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_GRAVITY:
-                LevelView.gVector[0] = sensorEvent.values[0];
-                LevelView.gVector[1] = sensorEvent.values[1];
-                LevelView.gVector[2] = sensorEvent.values[2];
+                LevelView.gVector = sensorEvent.values;
                 break;
         }
     }
