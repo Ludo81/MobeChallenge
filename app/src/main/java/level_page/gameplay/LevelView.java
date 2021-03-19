@@ -22,14 +22,14 @@ import end_page.EndActivity;
 import level_page.model.Chrono;
 
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
-    private final static int xDep = 60;
-    private final static int yDep = 600;
+    public final static int xDep = 60;
+    public final static int yDep = 600;
 
     public static float luminosite;
 
     public static LevelGamePlayActivity activity;
 
-    private static Balle balle = new Balle(25, xDep, yDep);
+    public static Balle balle = new Balle(25, xDep, yDep);
 
     private LevelThread levelThread;
 
@@ -46,7 +46,13 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap bonus2;
     private Bitmap malus;
 
+    private boolean bonus1actived = true;
+    private boolean bonus2actived = true;
+    private boolean malusactived = true;
+
     public static boolean restart;
+
+    private boolean gameover = false;
 
     private Etat etat;
 
@@ -123,10 +129,22 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             futurY = balle.getCy();
         }
 
-        if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){
-            balle.setCx(xDep);
-            balle.setCy(yDep);
-        } else {
+        if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){ //mur
+            restartGame();
+        }
+        if(isOnPixel((int) futurX, (int) futurY, Color.RED)){ //joint
+            malusactived = false;
+        }
+        if(isOnPixel((int) futurX, (int) futurY, Color.BLUE)){ //bonus1
+            bonus1actived = false;
+        }
+        if(isOnPixel((int) futurX, (int) futurY, Color.rgb(0, 0, 254))){ //bonus2
+            bonus2actived = false;
+        }
+        if(isOnPixel((int) futurX, (int) futurY, Color.GREEN)){ //arrivé
+            end();
+        }
+        else {
             balle.setCx((int) futurX);
             balle.setCy((int) futurY);
         }
@@ -167,9 +185,20 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         return (x - cx)*(x - cx) + (y - cy)*(y - cy) <= r*r;
     }
 
-    private void restart(){
-        Intent intent = new Intent(levelGamePlayActivity, EndActivity.class);
-        levelGamePlayActivity.startActivity(intent);
+    private void end(){
+        if(!gameover){
+            String score = String.valueOf(chronometreGlobal.getDuree());
+            chronometreGlobal.stop();
+            Intent intent = new Intent(levelGamePlayActivity, EndActivity.class);
+            intent.putExtra("SCORE", score);
+            levelGamePlayActivity.startActivity(intent);
+            gameover = true;
+        }
+    }
+
+    public static void restartGame(){
+        balle.setCx(xDep);
+        balle.setCy(yDep);
     }
 
     @Override
@@ -179,9 +208,12 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             Paint paint = new Paint();
 
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
-            canvas.drawBitmap(bonus1, null, new Rect(1200, 720, 1250, 770), paint); //ok
-            canvas.drawBitmap(bonus2, null, new Rect(40, 720, 90, 770), paint); //ok
-            canvas.drawBitmap(malus, null, new Rect(1200, 230, 1250, 280), paint);
+            if(bonus1actived)
+                canvas.drawBitmap(bonus1, null, new Rect(1200, 720, 1250, 770), paint);
+            if(bonus2actived)
+                canvas.drawBitmap(bonus2, null, new Rect(40, 720, 90, 770), paint);
+            if(malusactived)
+                canvas.drawBitmap(malus, null, new Rect(1200, 230, 1250, 280), paint);
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
 
@@ -241,8 +273,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 canvas.drawRect(50, 50, 200, 100, paint);
             } else if(test == 2){
                 canvas.drawRect(50, 50, 300, 100, paint);
-            } else if(test == 3)
-                restart();
+            } else if(test == 3) { //restart
+                restartGame();
+            }
         }
     }
 

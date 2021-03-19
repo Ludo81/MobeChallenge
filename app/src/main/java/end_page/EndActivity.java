@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.mobechallengeproject.R;
 
 import level_page.gameplay.LevelGamePlayActivity;
+import level_page.gameplay.LevelView;
 import start_page.StartActivity;
 
 
@@ -24,12 +25,13 @@ public class EndActivity extends AppCompatActivity {
 
         final TextView score = findViewById(R.id.score_text);
         Intent intent = getIntent();
-        String score_intent = intent.getStringExtra("score");
-        score.append("score_intent");
+        String score_intent = intent.getStringExtra("SCORE");
+        score.setText("Votre score est : " + score_intent);
 
         final Button restart_button = findViewById(R.id.restart_button);
         restart_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                LevelView.restartGame();
                 Intent intent = new Intent(EndActivity.this, LevelGamePlayActivity.class);
                 EndActivity.this.startActivity(intent);
             }
