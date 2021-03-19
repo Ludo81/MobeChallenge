@@ -12,6 +12,8 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
     private LevelThread levelThread;
 
+    public static float[] gVector = new float[]{};
+
     public LevelView(Context context) {
         super(context);
         getHolder().addCallback(this);
