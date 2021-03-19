@@ -18,8 +18,8 @@
         </activity>
         <activity
             android:name="level_page.gameplay.LevelGamePlayActivity"
-            android:parentActivityName="start_page.StartActivity">
-
+            android:parentActivityName="start_page.StartActivity"
+            android:screenOrientation="landscape">
         </activity>
         <activity android:name="end_page.EndActivity">
             android:parentActivityName="level_page.gameplay.LevelGamePlayActivity"

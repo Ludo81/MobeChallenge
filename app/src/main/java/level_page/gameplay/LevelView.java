@@ -1,24 +1,39 @@
 package level_page.gameplay;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.example.mobechallengeproject.R;
+
 import level_page.model.Balle;
 
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
-    private static Balle balle = new Balle(25, 750, 50);
+    public static float luminosite;
+
+    public static LevelGamePlayActivity activity;
+
+    private static Balle balle = new Balle(25, 500, 500);
 
     private LevelThread levelThread;
 
     public static float[] gVector = new float[]{0, 0, 0};
+
+    public static int xMax;
+    public static int yMax;
+
+    private static Bitmap current_map;
 
     public LevelView(Context context) {
         super(context);
@@ -29,6 +44,8 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        Bitmap map = BitmapFactory.decodeResource(getResources(), R.drawable.map_state1);
+        current_map = map.isMutable() ? map : map.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         setFocusable(true);
     }
@@ -43,15 +60,27 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void draw(Canvas canvas){
-        if (canvas != null) {
+        if(canvas != null) {
             super.draw(canvas);
-            drawBalle(canvas);
+            Paint paint = new Paint();
+            canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
+
+            drawBall(canvas, paint);
+            paint.setColor(Color.WHITE);
+            canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
         }
     }
 
-    private void drawBalle(Canvas canvas) {
-        Paint couleurBalle = new Paint(balle.getCouleur());
-        canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), couleurBalle);
+    private void drawBall(Canvas canvas, Paint paint){
+
+    }
+
+    private int getColorBall(){
+        int r = (int) ((luminosite*30)%255);
+        int g = (int) (luminosite*60)%255;
+        int b = (int) (luminosite*90)%255;
+        return Color.rgb(r, g, b);
+
     }
 
     @Override

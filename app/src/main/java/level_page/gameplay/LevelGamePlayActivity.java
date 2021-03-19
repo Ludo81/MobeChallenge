@@ -4,12 +4,14 @@ package level_page.gameplay;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +32,18 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        int width = size.x;
+        int height = size.y;
+
+        LevelView.yMax = height+80;
+        LevelView.xMax = width;
+
+        LevelView.activity = this;
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -46,6 +60,9 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 LevelView.gVector = sensorEvent.values;
+                break;
+            case Sensor.TYPE_LIGHT:
+                LevelView.luminosite = sensorEvent.values[0];
                 break;
         }
     }
