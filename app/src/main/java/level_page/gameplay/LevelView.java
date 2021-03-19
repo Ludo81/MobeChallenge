@@ -43,7 +43,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        Bitmap map = BitmapFactory.decodeResource(getResources(), R.drawable.map_state1);
+        Bitmap map = BitmapFactory.decodeResource(getResources(), R.drawable.map_state0);
         current_map = map.isMutable() ? map : map.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         setFocusable(true);
