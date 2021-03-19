@@ -28,7 +28,7 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         LevelView levelView = new LevelView(this);
         setContentView(levelView);
@@ -40,7 +40,7 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         switch (sensorEvent.sensor.getType()) {
-            case Sensor.TYPE_GRAVITY:
+            case Sensor.TYPE_ACCELEROMETER:
                 LevelView.gVector = sensorEvent.values;
                 break;
         }

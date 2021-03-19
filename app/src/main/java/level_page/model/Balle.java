@@ -7,7 +7,7 @@ public class Balle {
     private int radius;
     private int cx;
     private int cy;
-    private Color couleur;
+    private int couleur;
 
     public Balle(int radius, int cx, int cy) {
         this.radius = radius;
@@ -39,11 +39,11 @@ public class Balle {
         this.cy = cy;
     }
 
-    public Color getCouleur() {
+    public int getCouleur() {
         return couleur;
     }
 
-    public void setCouleur(Color couleur) {
+    public void setCouleur(int couleur) {
         this.couleur = couleur;
     }
 }
