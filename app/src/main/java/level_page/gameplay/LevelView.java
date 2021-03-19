@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -42,7 +41,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap map_clean;
     private Bitmap map_high;
     private Bitmap map_defonce;
-    private Bitmap current_map;
+    private static Bitmap current_map;
     private Bitmap bonus;
 
     public static boolean restart;
