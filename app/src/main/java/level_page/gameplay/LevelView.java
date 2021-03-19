@@ -50,8 +50,15 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        double futurX = balle.getCx() + gVector[0];
-        double futurY = balle.getCy() + gVector[1];
+        double futurX = balle.getCx() + gVector[1];
+        double futurY = balle.getCy() + gVector[0];
+
+        if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius() ) {
+            futurX = balle.getCx();
+        }
+        if (futurY >= yMax - balle.getRadius() || futurY <= balle.getRadius()) {
+            futurY = balle.getCy();
+        }
 
         balle.setCx((int) futurX);
         balle.setCy((int) futurY);
@@ -69,7 +76,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private int getColorBall(){
-        int r = (int) ((luminosite*30)%255);
+        int r = (int) (luminosite*30)%255;
         int g = (int) (luminosite*60)%255;
         int b = (int) (luminosite*90)%255;
         return Color.rgb(r, g, b);

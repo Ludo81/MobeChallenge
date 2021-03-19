@@ -62,7 +62,6 @@ public class LevelGamePlayActivity extends Activity implements SensorEventListen
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 LevelView.gVector = sensorEvent.values;
-                System.out.println(LevelView.gVector);
                 break;
             case Sensor.TYPE_LIGHT:
                 LevelView.luminosite = sensorEvent.values[0];
