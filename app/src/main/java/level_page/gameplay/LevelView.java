@@ -61,8 +61,8 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        double futurX = balle.getCx() + gVector[0];
-        double futurY = balle.getCy() + gVector[1];
+        double futurX = balle.getCx() + gVector[1];
+        double futurY = balle.getCy() + gVector[0];
 
         if(restart){
             if(!demarre){
