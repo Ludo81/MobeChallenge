@@ -42,7 +42,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap map_high;
     private Bitmap map_defonce;
     private static Bitmap current_map;
-    private Bitmap bonus;
+    private Bitmap bonus1;
+    private Bitmap bonus2;
+    private Bitmap malus;
 
     public static boolean restart;
 
@@ -72,8 +74,12 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
         current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
 
-        Bitmap seringue = BitmapFactory.decodeResource(getResources(), R.drawable.bonus);
-        bonus = seringue.isMutable() ? seringue : seringue.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap seringue1 = BitmapFactory.decodeResource(getResources(), R.drawable.bonus1);
+        Bitmap seringue2 = BitmapFactory.decodeResource(getResources(), R.drawable.bonus2);
+        Bitmap joint = BitmapFactory.decodeResource(getResources(), R.drawable.malus);
+        bonus1 = seringue1.isMutable() ? seringue1 : seringue1.copy(Bitmap.Config.ARGB_8888, true);
+        bonus2 = seringue2.isMutable() ? seringue2 : seringue2.copy(Bitmap.Config.ARGB_8888, true);
+        malus = joint.isMutable() ? joint : joint.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         this.etat = Etat.CLEAN;
         setFocusable(true);
@@ -176,8 +182,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             Paint paint = new Paint();
 
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
-            canvas.drawBitmap(bonus, null, new Rect(400, 400, 450, 450), paint);
-            canvas.drawBitmap(bonus, null, new Rect(40, 550, 90, 600), paint);
+            canvas.drawBitmap(bonus1, null, new Rect(1200, 720, 1250, 770), paint); //ok
+            canvas.drawBitmap(bonus2, null, new Rect(40, 720, 90, 770), paint); //ok
+            canvas.drawBitmap(malus, null, new Rect(1200, 230, 1250, 280), paint);
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
 
