@@ -41,7 +41,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap map_clean;
     private Bitmap map_high;
     private Bitmap map_defonce;
-    private Bitmap current_map;
+    private static Bitmap current_map;
     private Bitmap bonus1;
     private Bitmap bonus2;
     private Bitmap malus;
