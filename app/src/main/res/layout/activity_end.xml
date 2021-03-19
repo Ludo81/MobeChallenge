@@ -35,4 +35,14 @@
         android:text="@string/menu_res"
         app:layout_constraintBottom_toTopOf="@+id/restart_button"
         app:layout_constraintStart_toStartOf="@+id/restart_button" />
+
+    <Button
+        android:id="@+id/exit_button_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:text="@string/quitter_res"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,14 @@ public class EndActivity extends AppCompatActivity {
             }
         });
 
+        final Button exit_button = findViewById(R.id.exit_button_end);
+        exit_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finishAffinity();
+                System.exit(0);
+            }
+        });
+
         MediaPlayer music = MediaPlayer.create(EndActivity.this, R.raw.end_music);
         music.start();
 

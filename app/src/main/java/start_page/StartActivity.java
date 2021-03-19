@@ -25,5 +25,13 @@ public class StartActivity extends AppCompatActivity {
                 StartActivity.this.startActivity(intent);
             }
         });
+
+        final Button exit_button = findViewById(R.id.exit_button_start);
+        exit_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finishAffinity();
+                System.exit(0);
+            }
+        });
     }
 }

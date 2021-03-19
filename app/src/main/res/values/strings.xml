@@ -4,4 +4,5 @@
     <string name="demarrer_res">Démarrer</string>
     <string name="recommencer_res">Recommencer</string>
     <string name="menu_res">Menu</string>
+    <string name="quitter_res">Quitter</string>
 </resources>
