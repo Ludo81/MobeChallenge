@@ -45,6 +45,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap bonus1;
     private Bitmap bonus2;
     private Bitmap malus;
+    private Bitmap logoDoigts;
 
     private boolean bonus1actived = true;
     private boolean bonus2actived = true;
@@ -83,9 +84,11 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
         Bitmap seringue1 = BitmapFactory.decodeResource(getResources(), R.drawable.bonus1);
         Bitmap seringue2 = BitmapFactory.decodeResource(getResources(), R.drawable.bonus2);
         Bitmap joint = BitmapFactory.decodeResource(getResources(), R.drawable.malus);
+        Bitmap doigts = BitmapFactory.decodeResource(getResources(), R.drawable.doubledoigts);
         bonus1 = seringue1.isMutable() ? seringue1 : seringue1.copy(Bitmap.Config.ARGB_8888, true);
         bonus2 = seringue2.isMutable() ? seringue2 : seringue2.copy(Bitmap.Config.ARGB_8888, true);
         malus = joint.isMutable() ? joint : joint.copy(Bitmap.Config.ARGB_8888, true);
+        logoDoigts = doigts.isMutable() ? doigts : doigts.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         this.etat = Etat.CLEAN;
         setFocusable(true);
@@ -252,6 +255,14 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
 
+            paint.setTextSize(35);
+            paint.setColor(Color.RED);
+            paint.setFakeBoldText(true);
+            if(!restart){
+                canvas.drawBitmap(logoDoigts, null, new Rect(325, 12, 375, 62), paint);
+                canvas.drawText("RECOMMENCER", 50, 54, paint);
+            }
+
             drawRestart(canvas, paint);
 
             Paint paintChrono = new Paint();
@@ -295,20 +306,18 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void drawRestart(Canvas canvas, Paint paint){
         if(restart){
-            paint.setColor(Color.WHITE);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(2);
-            canvas.drawRect(50, 50, 300, 100, paint);
-            paint.setStyle(Paint.Style.FILL);
             paint.setColor(Color.RED);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(5);
+            canvas.drawRect(42, 8, 302, 65, paint);
+            paint.setStyle(Paint.Style.FILL);
             long test = chrono.getDuree();
             if (test == 0) {
-                canvas.drawRect(50, 50, 100, 100, paint);
+                canvas.drawRect(50, 16, 100, 57, paint);
             } else if(test == 1){
-                canvas.drawRect(50, 50, 200, 100, paint);
-            } else if(test == 2){
-                canvas.drawRect(50, 50, 300, 100, paint);
-            } else if(test == 3) {
+                canvas.drawRect(50, 16, 200, 57, paint);
+            } else if(test >= 2){
+                canvas.drawRect(50, 16, 295, 57, paint);
                 chronometreGlobal = new Chrono();
                 restartGame();
                 chronometreGlobal.start();
