@@ -315,6 +315,11 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
                 chronometreGlobal = new Chrono();
                 restartGame();
                 chronometreGlobal.start();
+                bonus1actived = true;
+                bonus2actived = true;
+                malusactived = true;
+                etat = Etat.CLEAN;
+                current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
             }
         }
     }
