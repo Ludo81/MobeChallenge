@@ -322,6 +322,7 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             } else if(test >= 2){
                 canvas.drawRect(50, 16, 295, 57, paint);
                 chronometreGlobal = new Chrono();
+                timesUp = false;
                 restartGame();
                 chronometreGlobal.start();
                 bonus1actived = true;
