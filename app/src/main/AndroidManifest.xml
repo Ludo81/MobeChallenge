@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobeChallengeProject">
-        <activity android:name="level_page.MainActivity">
+        <activity android:name="level_page.gameplay.LevelGamePlayActivity"></activity>
+        <activity android:name="start_page.StartActivity" />
+        <activity android:name="end_page.EndActivity" />
+        <activity android:name="level_page.overlay.LevelOverlayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
