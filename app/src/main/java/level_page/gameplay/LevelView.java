@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -23,12 +22,14 @@ import end_page.EndActivity;
 import level_page.model.Chrono;
 
 public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
+    private final static int xDep = 60;
+    private final static int yDep = 600;
 
     public static float luminosite;
 
     public static LevelGamePlayActivity activity;
 
-    private static Balle balle = new Balle(25, 500, 500);
+    private static Balle balle = new Balle(25, xDep, yDep);
 
     private LevelThread levelThread;
 
@@ -40,8 +41,10 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap map_clean;
     private Bitmap map_high;
     private Bitmap map_defonce;
-    private Bitmap current_map;
-    private Bitmap bonus;
+    private static Bitmap current_map;
+    private Bitmap bonus1;
+    private Bitmap bonus2;
+    private Bitmap malus;
 
     public static boolean restart;
 
@@ -71,8 +74,12 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
 
         current_map = map_clean.isMutable() ? map_clean : map_clean.copy(Bitmap.Config.ARGB_8888, true);
 
-        Bitmap seringue = BitmapFactory.decodeResource(getResources(), R.drawable.bonus);
-        bonus = seringue.isMutable() ? seringue : seringue.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap seringue1 = BitmapFactory.decodeResource(getResources(), R.drawable.bonus1);
+        Bitmap seringue2 = BitmapFactory.decodeResource(getResources(), R.drawable.bonus2);
+        Bitmap joint = BitmapFactory.decodeResource(getResources(), R.drawable.malus);
+        bonus1 = seringue1.isMutable() ? seringue1 : seringue1.copy(Bitmap.Config.ARGB_8888, true);
+        bonus2 = seringue2.isMutable() ? seringue2 : seringue2.copy(Bitmap.Config.ARGB_8888, true);
+        malus = joint.isMutable() ? joint : joint.copy(Bitmap.Config.ARGB_8888, true);
         this.levelThread = new LevelThread(getHolder(), this);
         this.etat = Etat.CLEAN;
         setFocusable(true);
@@ -80,20 +87,22 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
+        float xVector = gVector[1];
+        float yVector = gVector[0];
         double futurX = -1;
         double futurY = -1;
         switch (etat) {
             case CLEAN:
-                futurX = balle.getCx() + gVector[1];
-                futurY = balle.getCy() + gVector[0];
+                futurX = balle.getCx() + xVector;
+                futurY = balle.getCy() + yVector;
                 break;
             case HIGH:
-                futurX = balle.getCx() - gVector[1];
-                futurY = balle.getCy() - gVector[0];
+                futurX = balle.getCx() - xVector;
+                futurY = balle.getCy() - yVector;
                 break;
             case DEFONCE:
-                futurX = balle.getCx() - gVector[1];
-                futurY = balle.getCy() + gVector[0];
+                futurX = balle.getCx() - xVector;
+                futurY = balle.getCy() + yVector;
                 break;
         }
 
@@ -107,15 +116,20 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             demarre = false;
         }
 
-        if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius() ) {
+        if (futurX >= xMax - balle.getRadius() || futurX <= balle.getRadius()) {
             futurX = balle.getCx();
         }
         if (futurY >= yMax - balle.getRadius() || futurY <= balle.getRadius()) {
             futurY = balle.getCy();
         }
 
-        balle.setCx((int) futurX);
-        balle.setCy((int) futurY);
+        if (isOnPixel((int) futurX, (int) futurY, Color.BLACK)){
+            balle.setCx(xDep);
+            balle.setCy(yDep);
+        } else {
+            balle.setCx((int) futurX);
+            balle.setCy((int) futurY);
+        }
 
         if(chronometreGlobal.getDuree() == 4) {
             etat = Etat.HIGH;
@@ -127,6 +141,30 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             etat = Etat.DEFONCE;
             current_map = map_defonce.isMutable() ? map_defonce : map_defonce.copy(Bitmap.Config.ARGB_8888, true);
         }
+    }
+    private static boolean isOnPixel(int futureX, int futureY, int color) {
+        int r = balle.getRadius();
+        int xi = futureX - balle.getRadius();
+        int yi = futureY - balle.getRadius();
+
+        while (yi < futureY + balle.getRadius()) {
+            while (xi < futureX + balle.getRadius()) {
+                if (xi >= xMax || xi <= 0 || yi >= yMax || yi <= 0) {
+                    return true;
+                }
+                if (isInCircle(xi, yi, futureX, futureY, r) && current_map.getPixel(xi * (current_map.getWidth()-1) / xMax, yi * (current_map.getHeight()-1) / yMax) == color) {
+                    return true;
+                }
+                xi = xi + 1;
+            }
+            xi = futureX - balle.getRadius();
+            yi = yi + 1;
+        }
+        return false;
+    }
+
+    private static boolean isInCircle(int x, int y, int cx, int cy, int r) {
+        return (x - cx)*(x - cx) + (y - cy)*(y - cy) <= r*r;
     }
 
     private void restart(){
@@ -141,8 +179,9 @@ public class LevelView extends SurfaceView implements SurfaceHolder.Callback {
             Paint paint = new Paint();
 
             canvas.drawBitmap(current_map, null, new Rect(0, 0, xMax, yMax), paint);
-            canvas.drawBitmap(bonus, null, new Rect(400, 400, 450, 450), paint);
-            canvas.drawBitmap(bonus, null, new Rect(40, 550, 90, 600), paint);
+            canvas.drawBitmap(bonus1, null, new Rect(1200, 720, 1250, 770), paint); //ok
+            canvas.drawBitmap(bonus2, null, new Rect(40, 720, 90, 770), paint); //ok
+            canvas.drawBitmap(malus, null, new Rect(1200, 230, 1250, 280), paint);
             paint.setColor(getColorBall());
             canvas.drawCircle(balle.getCx(), balle.getCy(), balle.getRadius(), paint);
 
