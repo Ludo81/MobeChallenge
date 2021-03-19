@@ -16,31 +16,14 @@ public class Chrono {
 
     public void stop()
     {
-        tempsDepart=0;
-        tempsFin=0;
+        //tempsDepart=0;
+        //tempsFin=0;
         duree=0;
-        tempsDepart=0;
-        tempsFin=0;
     }
 
     public long getDuree(){
         tempsFin=System.currentTimeMillis();
         return (tempsFin-tempsDepart) / 1000;
-    }
-
-    public long getDureeSec()
-    {
-        return duree/1000;
-    }
-
-    public long getDureeMs()
-    {
-        return duree;
-    }
-
-    public String getDureeTxt()
-    {
-        return timeToHMS(getDureeSec());
     }
 
     public static String timeToHMS(long tempsS) {
